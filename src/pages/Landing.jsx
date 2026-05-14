@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-
-// NOTE: This file uses Tailwind. Two small additions are required for the
-// design to look right — see the README block at the bottom of this file.
+import Header from "./Header"; // adjust path if your Header lives elsewhere
 
 const LandingPage = () => {
-  const [theme, setTheme] = useState("dark");
-  const [scrolled, setScrolled] = useState(false);
-
+  // Initialize theme on mount (same logic as before, just without the unused scrolled state)
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     const prefersDark =
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
     const initial = saved || (prefersDark ? "dark" : "light");
-    setTheme(initial);
     document.documentElement.classList.toggle("dark", initial === "dark");
   }, []);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    localStorage.setItem("theme", next);
-    document.documentElement.classList.toggle("dark", next === "dark");
-  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#0a0a0b] text-neutral-900 dark:text-neutral-100 font-sans antialiased overflow-x-hidden selection:bg-indigo-500/30">
@@ -39,9 +21,11 @@ const LandingPage = () => {
         <div className="absolute inset-0 opacity-[0.035] dark:opacity-[0.06] [background-image:linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] [background-size:48px_48px]" />
       </div>
 
+      {/* Shared app header (replaces the landing's built-in nav) */}
+      <Header />
 
-      {/* Hero */}
-      <section className="pt-40 pb-24 px-6">
+      {/* Hero — pt reduced to account for Header's h-14 instead of the old h-16 nav */}
+      <section className="pt-32 pb-24 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur text-xs text-neutral-600 dark:text-neutral-400 mb-8 animate-[fadeUp_0.6s_ease-out_both]">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -486,39 +470,8 @@ const plans = [
   },
 ];
 
-/* ---------- Icons (inline, no extra deps) ---------- */
+/* ---------- Icons ---------- */
 
-function SunIcon(props) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  );
-}
-function MoonIcon(props) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
-  );
-}
 function ArrowRight(props) {
   return (
     <svg
