@@ -342,7 +342,7 @@ export default function Tickets() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 p-6">
+    <div className="min-h-screen w-screen p-6">
       <Toaster position="top-right" />
 
       {/* Header */}

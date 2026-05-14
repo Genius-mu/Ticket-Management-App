@@ -54,7 +54,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-50 to-blue-100">
+    <div className="flex w-screen justify-center items-center min-h-screen mt-9">
       <Toaster position="top-right" />
       <form
         onSubmit={handleSubmit}
